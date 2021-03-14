@@ -1,9 +1,9 @@
 import { Router } from 'express'
 import { update, getAll } from '../controller/UserController'
 
-const authRoutes = Router()
+const userRoutes = Router()
 
-authRoutes.put('/users', update)
-authRoutes.get('/users', getAll) // TODO: remove before sending to staging
+userRoutes.put('/users/:_id', update)
+userRoutes.get('/users', getAll) // TODO: remove before sending to staging
 
-export default authRoutes
+export default userRoutes

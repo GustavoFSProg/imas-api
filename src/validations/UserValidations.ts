@@ -1,17 +1,15 @@
-import { getUserByEmail, isValidEmail, isValidCPF } from '../utils'
+import { getUserById, isValidCPF } from '../utils'
 import { IUser } from '../interfaces'
 
 export async function validateUpdateUser(data: IUser) {
   const errors = []
-  const { email, cpf } = data
+  const { _id, cpf } = data
 
-  if (!isValidEmail(email)) errors.push('Email inválido')
-
-  if (!isValidCPF(cpf)) errors.push('CPF inválido')
+  if (cpf && !isValidCPF(cpf)) errors.push('CPF inválido')
 
   if (errors.length) return { errors }
 
-  const user = (await getUserByEmail(email)) as IUser
+  const user = (await getUserById(_id)) as IUser
 
   if (!user) errors.push('Usuário inexistente')
 

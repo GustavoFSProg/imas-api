@@ -9,7 +9,7 @@ export async function register(req: Request, res: Response) {
   try {
     const { errors } = await registerValidation(req.body)
 
-    if (errors.length) return res.status(404).send({ errors })
+    if (errors.length) return res.status(400).send({ errors })
 
     await createUser(req.body)
 

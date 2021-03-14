@@ -55,6 +55,11 @@ export async function getUserByEmail(email: string) {
   return user
 }
 
+export async function getUserById(_id: string) {
+  const user = await User.findOne({ _id }, USER_FIELDS)
+  return user
+}
+
 export async function createUser(data: IUser) {
   const { firstname, lastname, email, password, roles } = data
   const user = ((await User.create({
