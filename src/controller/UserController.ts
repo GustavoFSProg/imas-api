@@ -16,3 +16,13 @@ export async function update(req: Request, res: Response) {
     return res.status(400).send(error)
   }
 }
+
+export async function getAll(req: Request, res: Response) {
+  try {
+    const data = await User.find({}, USER_FIELDS)
+
+    return res.status(200).send(data)
+  } catch (error) {
+    return res.status(400).send(error)
+  }
+}

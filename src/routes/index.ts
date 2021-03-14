@@ -1,5 +1,6 @@
-import productsRoute from './ProductsRoutes'
+import productsRoutes from './productsRoutes'
 import authRoute from './authRoutes'
-import CategoryRoutes from './CategoryRoutes'
+import cathegoryRoutes from './cathegoryRoutes'
+import userRoutes from './userRoutes'
 
-export const routes = [authRoute, CategoryRoutes, productsRoute]
+export const routes = [authRoute, cathegoryRoutes, productsRoutes, userRoutes]

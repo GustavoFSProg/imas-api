@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 import dotenv from 'dotenv'
 import { createUser, generateToken } from '../utils'
 import { registerValidation, loginValidation } from '../validations/AuthValidations'
-import User from '../models/User'
 
 dotenv.config()
 
@@ -17,16 +16,6 @@ export async function register(req: Request, res: Response) {
     const token = await generateToken(req.body)
 
     return res.status(200).send({ message: 'Usuario cadastrado!', token })
-  } catch (error) {
-    return res.status(400).send(error)
-  }
-}
-
-export async function getAll(req: Request, res: Response) {
-  try {
-    const data = await User.find({}, 'firstname lastname email roles createdAt')
-
-    return res.status(200).send(data)
   } catch (error) {
     return res.status(400).send(error)
   }
