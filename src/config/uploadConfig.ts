@@ -1,7 +1,7 @@
 import multer from 'multer'
 import path from 'path'
 
-module.exports = {
+const imageUploader = multer({
   storage: multer.diskStorage({
     destination: path.resolve(__dirname, '..', '..', 'uploads'),
     filename(req, file, cb) {
@@ -10,4 +10,6 @@ module.exports = {
       cb(null, filename)
     },
   }),
-}
+}).single('image')
+
+export default imageUploader
