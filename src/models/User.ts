@@ -28,6 +28,14 @@ const schema = new Schema(
         enum: ['admin', 'user'],
       },
     ],
+    cpf: {
+      type: String,
+      trim: true,
+    },
+    phoneNumber: {
+      type: String,
+      trim: true,
+    },
   },
   { timestamps: true }
 )

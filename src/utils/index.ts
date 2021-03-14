@@ -2,6 +2,7 @@ import { IUser } from 'interfaces'
 import md5 from 'md5'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { cpf } from 'cpf-cnpj-validator'
 import User from '../models/User'
 
 dotenv.config()
@@ -24,8 +25,8 @@ export function isValidPassword(password: string) {
 export async function generateToken(data: IUser | undefined) {
   if (!data) throw Error(`Generate token error`)
   const { email, password } = data
-  const { GLOBAL_SALT_KEY } = process.env
-  const token = await jwt.sign({ email, password }, GLOBAL_SALT_KEY || '', { expiresIn: '1d' })
+  const { SECRET } = process.env
+  const token = await jwt.sign({ email, password }, SECRET || '', { expiresIn: '1d' })
 
   return token
 }
@@ -42,7 +43,7 @@ export function verifyToken(token: string) {
   })
 }
 
-const USER_FIELDS = 'firstname lastname email'
+export const USER_FIELDS = 'firstname lastname email roles phoneNumber cpf'
 
 export async function getUserByEmailAndPassword(email: string, password: string) {
   const user = await User.findOne({ email, password: encryptPassword(password) }, USER_FIELDS)
@@ -56,13 +57,17 @@ export async function getUserByEmail(email: string) {
 
 export async function createUser(data: IUser) {
   const { firstname, lastname, email, password, roles } = data
-  const currentUser = await User.create({
+  const user = ((await User.create({
     firstname,
     lastname,
     email,
-    password: md5(`${password}123sdfdsfy6m`),
+    password: md5(password, process.env.SECRET as string & { asBytes: true }),
     roles,
-  })
-  const user = (currentUser as unknown) as IUser
+  })) as unknown) as IUser
   return user
+}
+
+export function isValidCPF(_cpf: string = '') {
+  if (_cpf === '') return false
+  return cpf.isValid(_cpf)
 }

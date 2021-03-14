@@ -1,45 +1,41 @@
 import { Request, Response } from 'express'
-import categoryModel from '../models/categoryModel'
-import productsModel from '../models/productsModel'
+import Cathegory from '../models/Cathegory'
+import Product from '../models/Product'
 
-async function createProducts(req: Request, res: Response) {
+export async function create(req: Request, res: Response) {
   try {
     const { filename: image } = req.file
 
     const [name] = image.split('.')
     const filename = `${name}.jpg`
 
-    const data = req.body.category
+    const cathegoryId = await Cathegory.findOne({ name: req.body.cathegory }, '_id')
 
-    const retorno = await categoryModel.findOne({ name: data })
+    if (!cathegoryId) return res.send({ msg: 'Categoria não encontrada!' })
 
-    if (!retorno) return res.send({ msg: 'Categoria não encontrado!' })
+    await Product.create({ ...req.body, image: filename, cathegoryId })
 
-    await productsModel.create({
-      title: req.body.title,
-      description: req.body.description,
-      price: req.body.price,
-      category: req.body.category,
-      peso: req.body.peso,
-      image: filename,
-      // eslint-disable-next-line no-underscore-dangle
-      categoryId: retorno,
-    })
-
-    return res.status(201).send({ Message: 'Produto cadastrado com sucessoo' })
+    return res.status(201).send({ Message: 'Produto cadastrado com sucesso' })
   } catch (error) {
-    return res.status(400).send({ error, message: 'Erro no cadastro!' })
+    return res.status(400).send(error)
   }
 }
 
-async function getAll(req: Request, res: Response) {
+export async function getById(req: Request, res: Response) {
   try {
-    const data = await productsModel.find()
+    const product = await Product.findOne({ _id: req.params._id })
+    return res.status(200).send(product)
+  } catch (error) {
+    return res.status(400).send(error)
+  }
+}
+
+export async function getAll(req: Request, res: Response) {
+  try {
+    const data = await Product.find({})
 
     return res.status(200).send(data)
   } catch (error) {
     return res.status(400).send(error)
   }
 }
-
-export default { createProducts, getAll }

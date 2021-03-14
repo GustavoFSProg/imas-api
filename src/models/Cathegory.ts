@@ -8,4 +8,4 @@ const schema = new Schema({
   },
 })
 
-export default model('categoryModel', schema)
+export default model('Cathegory', schema)

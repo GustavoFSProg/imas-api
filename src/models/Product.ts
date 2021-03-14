@@ -1,6 +1,5 @@
-/* eslint-disable no-undef */
-import { Schema, model, Types } from 'mongoose'
-import categoryModel from './categoryModel'
+import { Schema, model } from 'mongoose'
+import Cathegory from './Cathegory'
 
 const schema = new Schema(
   {
@@ -16,17 +15,16 @@ const schema = new Schema(
     },
     price: {
       type: Number,
-      trim: true,
-      index: true,
       required: true,
     },
-    categoryId: {
+    cathegoryId: {
       type: Schema.Types.ObjectId,
-      ref: categoryModel,
+      ref: Cathegory,
       required: true,
     },
     peso: {
-      type: Types.Decimal128,
+      type: Number,
+      // type: Types.Decimal128,
       required: true,
     },
     image: {
@@ -37,4 +35,4 @@ const schema = new Schema(
   { timestamps: true }
 )
 
-export default model('productsModel', schema)
+export default model('Product', schema)

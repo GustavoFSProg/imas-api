@@ -1,10 +1,10 @@
 import { Router } from 'express'
 import { register, getAll, login } from '../controller/AuthController'
 
-const authRoute = Router()
+const authRoutes = Router()
 
-authRoute.post('/register', register)
-authRoute.get('/', getAll)
-authRoute.post('/login', login)
+authRoutes.post('/register', register)
+authRoutes.get('/', getAll) // TODO: remove before sending to staging
+authRoutes.post('/login', login)
 
-export default authRoute
+export default authRoutes

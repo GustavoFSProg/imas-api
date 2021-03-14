@@ -1,7 +1,9 @@
 export interface IUser {
-  firstname: string
-  lastname: string
+  firstname?: string
+  lastname?: string
   email: string
   password: string
-  roles: string
+  roles: Array<string>
+  phoneNumber?: string
+  cpf?: string
 }
